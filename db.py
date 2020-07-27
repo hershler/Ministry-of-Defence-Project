@@ -2,6 +2,7 @@ import db_api
 import csv
 from typing import Any, Dict, List
 from db_api import DBTable, SelectionCriteria, DBField
+import os
 
 
 class DataBase(db_api.DataBase):
@@ -12,12 +13,14 @@ class DataBase(db_api.DataBase):
                      table_name: str,
                      fields: List[DBField],
                      key_field_name: str) -> DBTable:
+        if table_name in self.tables.keys():
+            raise NameError("this table name exists")
         exist = False
         for filed in fields:
             if filed.name == key_field_name:
                 exist = True
         if not exist:
-            raise ValueError("key filed does not exist")
+            raise KeyError("key filed does not exist")
 
         with open(db_api.DB_ROOT.joinpath(table_name + '.csv'), 'w') as table:
             writer = csv.writer(table)
@@ -30,10 +33,17 @@ class DataBase(db_api.DataBase):
         return self.tables.__len__()
 
     def get_table(self, table_name: str) -> DBTable:
-        return self.tables.get(table_name)
+        try:
+            return self.tables[table_name]
+        except KeyError:
+            raise NameError("this table doesnt exist")
 
     def delete_table(self, table_name: str) -> None:
-        return self.tables.pop(table_name)
+        try:
+            self.tables.pop(table_name)
+            os.remove(db_api.DB_ROOT.joinpath(table_name + '.csv'))
+        except KeyError:
+            raise NameError("this table doesnt exist")
 
     def get_tables_names(self) -> List[Any]:
         return self.tables.keys()
