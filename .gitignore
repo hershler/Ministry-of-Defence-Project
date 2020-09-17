@@ -1,3 +1,8 @@
 .idea/
 venv/
 LICENSE
+__pycache__ 
+db_files/
+db_files_backup/
+design.docx 
+db_implementations/__pycache__ 
