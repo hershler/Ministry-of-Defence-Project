@@ -12,4 +12,4 @@ DB is particularly fast in these operations and less focused on the efficiency o
 
 The recommended data type for working with this DB is numbers, characters, strings of fixed length and such.
 
-Special thanks to ADVA and Elevation stuff and all the mentors from 8-200!
+Special thanks to ADVA and Elevation team and all the mentors from 8-200!
